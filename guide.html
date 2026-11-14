@@ -53,8 +53,8 @@ ol.rules li{margin:0 0 6px;break-inside:avoid}
 <header>
   <b>Mars Navigator</b>
   <nav>
-    <a href="index.html">Map</a><a href="globe.html">3D Globe</a>
-    <a href="#objectives">Objectives</a><a href="#field">Field Guide</a><a href="#safety">Safety</a><a href="#power">Power</a><a href="#team">Team &amp; Sources</a>
+    <a href="index.html">Map</a><a href="globe.html">3D Globe</a><a href="present.html">Presentation</a>
+    <a href="#objectives">Objectives</a><a href="#on-mars">On Mars</a><a href="#travel">Travel</a><a href="#field">Field Guide</a><a href="#safety">Safety</a><a href="#power">Power</a><a href="#team">Team &amp; Sources</a>
   </nav>
 </header>
 <main>
@@ -62,7 +62,7 @@ ol.rules li{margin:0 0 6px;break-inside:avoid}
 <p class="muted" style="margin-top:26px">NASA Space Apps Challenge 2026 · Interplanetary Survival Guide: Martian Map</p>
 <h1>Know where you are.<br>Know when to turn back.</h1>
 <p class="lede">A layered Mars map and field guide for the first human crews. It tells an astronaut <b>where</b> to walk (terrain and real rover routes), <b>when</b> to walk (temperature zones through the sol), and <b>how to stay safe</b> (radiation shelters, dust storms and power).</p>
-<div class="cta"><a href="index.html">Open the map</a><a href="globe.html" class="ghost">Spin the 3D globe</a></div>
+<div class="cta"><a href="present.html">Watch the team presentation</a><a href="index.html" class="ghost">Open the map</a><a href="globe.html" class="ghost">Spin the 3D globe</a></div>
 <p class="muted">Team lead <b>Pravya Sharma</b>, with <b>Advika Bisaria</b> and <b>Kshama</b>, Winchester School, Jebel Ali, Dubai.</p>
 <div class="grid" style="margin-top:14px">
 <div class="card"><b>Turn-by-turn navigation.</b> A blinking arrow shows where you are, with the next turn, time and distance left and arrival time, like a phone map. A compass stays at the top.</div>
@@ -84,6 +84,64 @@ ol.rules li{margin:0 0 6px;break-inside:avoid}
 <tr><td><b>5. Stay safe from radiation and dust</b></td><td>Murray Buttes and other cliffs on the route</td><td>Shelter spots, dust layer, zone clock</td><td>Know your nearest shelter before you leave. Dusty days are CAUTION days.</td></tr>
 <tr><td><b>6. Daily Marswalk</b></td><td>Bradbury Landing to Yellowknife Bay (first walk)</td><td>Route planner, height profile, zone clock</td><td>Leave 10:30, turn back 14:30, inside by 15:30. Never alone.</td></tr>
 </table>
+
+<!-- ============ ON MARS ============ -->
+<h2 id="on-mars">How the app works on Mars</h2>
+<p class="by">The website you are using now runs on the internet. On Mars there is no internet in the Earth sense, so the same app runs from the base's own computers.</p>
+<svg viewBox="0 0 1000 300" role="img" aria-label="Diagram: suits, rovers and the Navigator talk to the base server over a local radio network; the base talks to Mars relay orbiters, which talk to the Deep Space Network on Earth" style="width:100%;background:#2b1a16;border:1px solid #4a2f26;border-radius:10px">
+  <g font-family="Segoe UI,Arial" font-size="15" fill="#f2e3cc" text-anchor="middle">
+    <rect x="20" y="40" width="190" height="220" rx="12" fill="#3a241d" stroke="#6b4a3a"/><text x="115" y="70" font-weight="700" fill="#e3a857">On the ground</text>
+    <text x="115" y="110">Suits (helmet display)</text><text x="115" y="145">Rovers</text><text x="115" y="180">Navigator aircraft</text><text x="115" y="215">Tablets</text>
+    <rect x="300" y="80" width="190" height="140" rx="12" fill="#3a241d" stroke="#e3a857"/><text x="395" y="112" font-weight="700" fill="#e3a857">Base server</text>
+    <text x="395" y="142">this app + all maps</text><text x="395" y="167">crew chat + photos</text><text x="395" y="192">works with no Earth link</text>
+    <rect x="580" y="80" width="170" height="140" rx="12" fill="#3a241d" stroke="#6b4a3a"/><text x="665" y="112" font-weight="700" fill="#e3a857">Relay orbiters</text>
+    <text x="665" y="142">MRO, Odyssey, MAVEN,</text><text x="665" y="167">Trace Gas Orbiter,</text><text x="665" y="192">Mars Express</text>
+    <rect x="830" y="80" width="150" height="140" rx="12" fill="#3a241d" stroke="#6b4a3a"/><text x="905" y="112" font-weight="700" fill="#e3a857">Earth</text>
+    <text x="905" y="142">Deep Space</text><text x="905" y="167">Network dishes</text><text x="905" y="192">Mission Control</text>
+  </g>
+  <g stroke="#e3a857" stroke-width="3" fill="none"><path d="M212 150 H296"/><path d="M492 150 H576"/><path d="M752 150 H826"/></g>
+  <g font-family="Segoe UI,Arial" font-size="12.5" fill="#d9c2a3" text-anchor="middle">
+    <text x="254" y="138">local radio</text><text x="254" y="172">instant</text>
+    <text x="534" y="138">UHF relay</text><text x="534" y="172">when overhead</text>
+    <text x="789" y="138">radio</text><text x="789" y="172">3 to 22 min</text>
+  </g>
+</svg>
+<div class="grid" style="margin-top:14px">
+<div class="card"><b>1. Runs at the base, not on the internet.</b> The whole app (pages, maps, libraries) is installed on a small server in the habitat and in each rover. Suits, rovers and tablets reach it over a local radio network, the way phones use Wi-Fi. Nothing needs Earth to work.</div>
+<div class="card"><b>2. Maps are loaded before launch.</b> Every NASA map tile for the landing region is stored on board. Even this public website already keeps a copy of the pages and every map tile you have viewed, so it keeps working if the connection drops.</div>
+<div class="card"><b>3. Chat between teams is instant.</b> Teams on Mars talk through the base server in real time. Only messages to Earth wait for the radio delay.</div>
+<div class="card"><b>4. Earth gets updates through orbiters.</b> Today Curiosity and Perseverance send over 99% of their data back through relay orbiters, which pass it to NASA's Deep Space Network. Photos and logs from the crew would travel the same way, a few minutes later.</div>
+<div class="card"><b>5. Solar conjunction.</b> About every 26 months the Sun blocks the link for roughly two weeks. The app keeps working; messages to Earth simply wait in a queue.</div>
+<div class="card"><b>6. On this website today.</b> The chat and camera run in demo mode in your browser, because a public website has no base server. On Mars, the same buttons would talk to the base server instead.</div>
+</div>
+<p class="muted">Sources: NASA Mars Relay Network (science.nasa.gov/mars/mars-relay-network); Gladden et al., SpaceOps 2025 (rovers depend on relay for over 99% of returned data).</p>
+
+<!-- ============ TRAVEL ============ -->
+<h2 id="travel">Three ways to travel</h2>
+<p class="by">Pick the right ride for the distance. The route planner on the map does the maths for each.</p>
+<table>
+<tr><th>Mode</th><th>Planning speed</th><th>Best for</th><th>Based on</th></tr>
+<tr><td><b>On foot</b> (suited)</td><td>about 2 km/h</td><td>Short walks near base, in pairs, inside the GO window</td><td>Our turn-back rule: leave 10:30, back by 15:30</td></tr>
+<tr><td><b>Pressurised rover</b></td><td>about 10 km/h (our planning figure)</td><td>Day trips and multi-sol traverses, with a cabin to shelter in</td><td>Rovers today are far slower (Curiosity has driven about 39 km in 14 years)</td></tr>
+<tr><td><b>Nuclear-Powered Navigator</b> (concept aircraft)</td><td>about 350 km/h cruise, 1.5 km up</td><td>Reaching ice, solar farms or a second base in hours, and rescue flights</td><td>NASA-funded studies: MANGLE nuclear aircraft concept and the ARES Mars airplane</td></tr>
+</table>
+<div class="two" style="margin-top:14px">
+<div>
+<h3>The Nuclear-Powered Navigator</h3>
+<p>A vertical take-off aircraft that heats Mars air with a small nuclear reactor instead of burning fuel, so it can stay in the air for very long flights. Current estimates:</p>
+<ul>
+<li><b>Cruise speed:</b> about Mach 0.4, roughly 350 km/h, at 1.5 km altitude (MANGLE study, AIAA 2014-3820).</li>
+<li><b>Range:</b> enough to circle Mars about 160 times in one Mars year, flying two thirds of the time (MANGLE).</li>
+<li><b>Top speed:</b> a rocket-powered Mars airplane (ARES) was designed to cruise at 145 m/s, about 520 km/h. Going much faster is hard because the air is thin and sound travels slower on Mars.</li>
+<li><b>For scale:</b> NASA's Ingenuity helicopter flew 72 times on Mars, up to 24 m high and 10 m/s (36 km/h).</li>
+</ul>
+<p class="muted">Honest note: these are robotic study designs. A Navigator big enough to carry people has not been designed yet, so treat crewed numbers as estimates.</p>
+</div>
+<div class="card" style="align-self:start">
+<b>Example: Gale base to Jezero</b><br>About 3,750 km in a straight line.<br>
+On foot: impossible.<br>Rover at 10 km/h: about 16 days of non-stop driving.<br>Navigator at 350 km/h: about 11 hours of flying.
+</div>
+</div>
 
 <!-- ============ FIELD GUIDE ============ -->
 <h2 id="field">Part 1 · Mars Field Guide: temperature and navigation</h2>
@@ -305,6 +363,14 @@ ol.rules li{margin:0 0 6px;break-inside:avoid}
 <li>Curiosity RAD radiation, REMS weather; Perseverance MEDA weather and MOXIE oxygen results (NASA/JPL), as cited in each section.</li>
 </ul>
 
+<h3>Travel and connectivity sources</h3>
+<ul class="src">
+<li>NASA Mars Relay Network: <a href="https://science.nasa.gov/mars/mars-relay-network/">https://science.nasa.gov/mars/mars-relay-network/</a></li>
+<li>Gladden et al. (2025), SpaceOps, Mars relay operations: rovers depend on relay for over 99% of returned data.</li>
+<li>MANGLE, Mars Aerial Nuclear Global Landing Explorer, AIAA 2014-3820 (University of Miami): <a href="https://acfdlab.miami.edu/publications/AIAA-2014-3820.pdf">https://acfdlab.miami.edu/publications/AIAA-2014-3820.pdf</a></li>
+<li>ARES Mars airplane, NASA Langley (cruise 145 m/s): <a href="https://ntrs.nasa.gov/citations/20080030375">https://ntrs.nasa.gov/citations/20080030375</a></li>
+<li>Ingenuity Mars Helicopter records (NASA JPL, 2024): <a href="https://www.jpl.nasa.gov/videos/the-most-extreme-flights-of-nasas-ingenuity-mars-helicopter-mars-report/">https://www.jpl.nasa.gov/videos/the-most-extreme-flights-of-nasas-ingenuity-mars-helicopter-mars-report/</a></li>
+</ul>
 <h3>Other data and tools</h3>
 <ul class="src">
 <li>USGS / IAU Gazetteer of Planetary Nomenclature (place names, sizes, coordinates): <a href="https://planetarynames.wr.usgs.gov/">https://planetarynames.wr.usgs.gov/</a></li>

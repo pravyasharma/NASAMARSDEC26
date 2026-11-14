@@ -226,5 +226,7 @@
   document.addEventListener('keydown', e => { if (e.key === 'Escape') { chat.classList.remove('open'); cam.classList.remove('open'); lb.classList.remove('open'); stopCam(); } });
 
   window.CREW = { allMedia, urlFor };
+  /* offline helper: keeps the site and viewed map tiles for use without internet */
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') navigator.serviceWorker.register('sw.js').catch(() => {});
   if (CFG.onMedia) allMedia().then(list => list.forEach(r => CFG.onMedia(r)));
 })();

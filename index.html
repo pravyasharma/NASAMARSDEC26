@@ -7,7 +7,7 @@
 <meta name="description" content="A layered Mars map that plans a safe Marswalk by mission objective, built on NASA Mars Trek imagery, rover data and the USGS gazetteer. NASA Space Apps Challenge 2026.">
 <meta name="author" content="Pravya Sharma (team lead), Advika Bisaria, Kshama · Winchester School, Jebel Ali, Dubai">
 <meta name="generator" content="Hand-written HTML, CSS and JavaScript with Leaflet. Code drafted with help from an SI assistant (Claude) and reviewed by the team.">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="lib/leaflet/leaflet.css">
 <style>
 :root{--basalt:#1c1110;--panel:#2b1a16;--panel2:#3a241d;--rust:#c1440e;--ember:#d8582a;--dust:#e3a857;--sand:#f2e3cc;--clay:#d9c2a3;--frost:#8db9cc;--sage:#7fa37a;--line:#4a2f26}
 *{box-sizing:border-box}
@@ -96,6 +96,7 @@ input[type=range]{width:100%;accent-color:var(--ember)}
     <a href="index.html" style="border-color:var(--dust);color:var(--dust)">Map</a>
     <a href="globe.html">3D Globe</a>
     <a href="guide.html">Field Guide</a>
+    <a href="present.html">Presentation</a>
     <a href="guide.html#team">Team &amp; Sources</a>
   </nav>
 </header>
@@ -121,14 +122,21 @@ input[type=range]{width:100%;accent-color:var(--ember)}
     <label>Start<select id="rStart"></select></label>
     <label style="display:block;margin-top:8px">Destination<select id="rEnd"></select></label>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-      <label>Travel mode<select id="rMode"><option value="walk">On foot (suited)</option><option value="rover">Pressurised rover</option></select></label>
-      <label>Speed, km/h<input id="rSpeed" type="number" min="0.5" max="20" step="0.5" value="2"></label>
+      <label>Travel mode<select id="rMode"><option value="walk">On foot (suited)</option><option value="rover">Pressurised rover</option><option value="nav">Nuclear-Powered Navigator (aircraft)</option></select></label>
+      <label>Speed, km/h<input id="rSpeed" type="number" min="0.5" max="600" step="0.5" value="2"></label>
     </div>
     <label style="display:block;margin-top:8px">Time at each science stop, minutes<input id="rStop" type="number" min="0" max="240" step="5" value="30"></label>
     <div style="margin-top:10px;display:flex;gap:8px"><button class="btn" id="rGo">Plan route</button><button class="btn ghost" id="rClear">Clear</button></div>
     <div id="rOut"></div>
     <div id="profile"></div>
     <p class="muted">Speeds are planning assumptions you can change. The turn-back rule (leave 10:30, back by 15:30 local solar time) comes from our temperature layer.</p>
+    <h3>Three ways to travel</h3>
+    <div class="card" style="font-size:14px">
+      <b>1. On foot</b> (default 2 km/h): short walks near base, in pairs, inside the GO window.<br>
+      <b>2. Pressurised rover</b> (default 10 km/h, our planning figure): longer trips with a shirt-sleeve cabin and a place to shelter.<br>
+      <b>3. Nuclear-Powered Navigator</b> (concept aircraft, default 350 km/h): flies about 1.5 km above the ground and lands upright, so it can reach anywhere on Mars in hours.<br>
+      <span class="muted">Navigator figures come from NASA-funded studies: the nuclear-powered MANGLE concept (cruise about Mach 0.4, roughly 350 km/h, at 1.5 km, range enough to circle Mars 160 times in a Mars year; AIAA 2014-3820) and the ARES Mars airplane (designed cruise 145 m/s, about 520 km/h). Thin air and a low speed of sound limit how fast any Mars aircraft can go. For scale, the Ingenuity helicopter's record was 10 m/s (36 km/h) at up to 24 m. No crewed Mars aircraft exists yet.</span>
+    </div>
   </div>
 
   <div class="pane" id="p-layers">
@@ -186,7 +194,7 @@ input[type=range]{width:100%;accent-color:var(--ember)}
 <div id="readout">Move the mouse over Mars</div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="lib/leaflet/leaflet.js"></script>
 <script src="data.js"></script>
 <script>
 /* Mars Navigator, main map.
@@ -314,7 +322,7 @@ LANDERS.forEach(([n, ll]) => L.circleMarker(ll, { radius: 5, color: '#f2e3cc', w
 /* Named features (USGS gazetteer) */
 const namesLayer = L.layerGroup();
 const nameMarks = GAZ.map(([n, lat, lon, d, t]) => ({ n, d, m: L.circleMarker([lat, lon], { radius: 2.5, stroke: false, fillColor: '#f2e3cc', fillOpacity: .8 })
-  .bindTooltip(n, { className: 'lbl' + (d >= 1500 ? ' big' : ''), direction: 'center', permanent: true })
+  .bindTooltip(n, { className: 'lbl' + (d >= 1500 ? ' big' : ''), direction: 'top', offset: [0, -3], permanent: true })
   .bindPopup(`<b>${n}</b><br>${FEATURE_TYPES[t] || t}, ${d < 1 ? 'under 1 km' : 'about ' + d.toLocaleString('en-US') + ' km'} across<br><span class="muted">${fmtLat(lat)}, ${fmtLon(lon)} · USGS Gazetteer</span>`) }));
 function refreshNames() {
   namesLayer.clearLayers();
@@ -498,9 +506,9 @@ let LASTROUTE = null;
 function planRoute() {
   routeLayer.clearLayers();
   const A = P[rStart.value], B = P[rEnd.value]; if (!A || !B || A === B) { rOut.innerHTML = '<p class="muted">Pick two different places.</p>'; return; }
-  const mode = document.getElementById('rMode').value, v = Math.max(0.5, +document.getElementById('rSpeed').value || 2), stop = Math.max(0, +document.getElementById('rStop').value || 0);
+  const mode = document.getElementById('rMode').value, v = Math.max(0.5, +document.getElementById('rSpeed').value || 2), stop = Math.max(0, +document.getElementById('rStop').value || 0), fly = mode === 'nav';
   const ia = nearIdx(MSL, A.ll), ib = nearIdx(MSL, B.ll);
-  let pts, km, gain = null, loss = null, onPath = ia.d < 0.3 && ib.d < 0.3, odo = null;
+  let pts, km, gain = null, loss = null, onPath = !fly && ia.d < 0.3 && ib.d < 0.3, odo = null;
   if (onPath) {
     const s = Math.min(ia.i, ib.i), e = Math.max(ia.i, ib.i); let seg = MSL.slice(s, e + 1); if (ia.i > ib.i) seg = seg.slice().reverse();
     pts = seg.map(p => [p.lat, p.lon]); km = 0; gain = 0; loss = 0;
@@ -517,19 +525,20 @@ function planRoute() {
   L.polyline(pts, { color: '#ffd34d', weight: 6, opacity: .9 }).addTo(routeLayer);
   L.polyline(pts, { color: '#1c1110', weight: 2, dashArray: '6 8' }).addTo(routeLayer);
   map.fitBounds(L.latLngBounds(pts).pad(0.3));
-  const oneWayH = useKm / v, roundH = 2 * oneWayH + stop / 60, leave = 10.5, back = leave + roundH;
+  const oneWayH = useKm / v + (fly ? 0.25 : 0), roundH = 2 * oneWayH + stop / 60, leave = 10.5, back = leave + roundH;
   let verdict, cls;
-  if (mode === 'walk' && useKm > 15) { verdict = 'Too far to walk and come back in one sol. Use the pressurised rover or plan a multi-sol traverse.'; cls = 'NOGO'; }
+  if (fly) { verdict = `Fly at about 1.5 km altitude. ${fmtKm(useKm)} takes ${oneWayH < 1 ? Math.round(oneWayH * 60) + ' min' : oneWayH.toFixed(1) + ' h'} including take-off and landing. Land only on a checked, flat landing zone, in daylight.${back > 17.5 ? ' A same-sol round trip would land after dark, so plan to stay overnight at the destination.' : ''}`; cls = back <= 17.5 ? 'GO' : 'CAUTION'; }
+  else if (mode === 'walk' && useKm > 15) { verdict = 'Too far to walk and come back in one sol. Use the pressurised rover or plan a multi-sol traverse.'; cls = 'NOGO'; }
   else if (back <= 15.5) { verdict = `Out and back by ${hhmm(back)}: fits inside the GO window.`; cls = 'GO'; }
   else if (back <= 17) { verdict = `Back by ${hhmm(back)}: past the 15:30 limit. Shorten the stop or start earlier.`; cls = 'CAUTION'; }
   else { verdict = `Back by ${hhmm(back)}, after dark. Split into a multi-sol traverse with an overnight shelter.`; cls = 'NOGO'; }
   const zA = zone(A.ll[0], 10.5), zB = zone(B.ll[0], 13.5);
   rOut.innerHTML = `<div class="card"><dl class="kv">
-    <dt>Route</dt><dd>${onPath ? 'Along Curiosity’s real drive path' : 'Shortest path over the surface'}</dd>
+    <dt>Route</dt><dd>${fly ? 'Straight line through the air (Navigator)' : onPath ? 'Along Curiosity’s real drive path' : 'Shortest path over the surface'}</dd>
     <dt>Distance</dt><dd><b>${fmtKm(useKm)}</b> one way${odo ? ' <span class="muted">(Curiosity odometer)</span>' : (onPath ? ' <span class="muted">(between NASA waypoints)</span>' : '')}</dd>
     ${gain != null ? `<dt>Climb</dt><dd>+${Math.round(gain)} m / −${Math.round(loss)} m</dd>` : ''}
     <dt>Heading</dt><dd>${compass(bearing(A.ll, B.ll))} (${Math.round(bearing(A.ll, B.ll))}°)</dd>
-    <dt>Time</dt><dd>${oneWayH < 1 ? Math.round(oneWayH * 60) + ' min' : oneWayH.toFixed(1) + ' h'} each way at ${v} km/h, plus ${stop} min at the stop</dd>
+    <dt>Time</dt><dd>${oneWayH < 1 ? Math.round(oneWayH * 60) + ' min' : oneWayH.toFixed(1) + ' h'} each way at ${v} km/h${fly ? ' (incl. 15 min take-off and landing)' : ''}, plus ${stop} min at the stop</dd>
     <dt>Leave 10:30</dt><dd><span class="pill ${zA.z}">${zA.label}</span> at start</dd>
     <dt>Verdict</dt><dd><span class="pill ${cls}">${cls === 'NOGO' ? 'NO-GO' : cls}</span> ${verdict}</dd>
   </dl><button class="btn" id="navStart" style="margin-top:10px">Start navigation</button></div>`;
@@ -546,6 +555,7 @@ function drawProfile(seg) {
     <p class="muted">Heights from NASA rover waypoints (metres relative to Mars datum).</p>`;
 }
 document.getElementById('rGo').onclick = planRoute;
+document.getElementById('rMode').onchange = e => { document.getElementById('rSpeed').value = { walk: 2, rover: 10, nav: 350 }[e.target.value]; };
 document.getElementById('rClear').onclick = () => { stopNav(); routeLayer.clearLayers(); rOut.innerHTML = ''; document.getElementById('profile').innerHTML = ''; };
 
 /* ---------- Turn-by-turn navigation ---------- */
@@ -564,7 +574,7 @@ function startNav() {
   stopNav();
   const pts = LASTROUTE.pts, cum = [0];
   for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + dist(pts[i - 1], pts[i]));
-  NAV = { pts, cum, total: cum[cum.length - 1], dest: LASTROUTE.dest, v: LASTROUTE.v, s: 0, sim: false, clock0: +clockR.value, follow: true };
+  NAV = { pts, cum, total: cum[cum.length - 1], dest: LASTROUTE.dest, v: LASTROUTE.v, s: 0, sim: false, clock0: +clockR.value, follow: true, k: LASTROUTE.mode === 'nav' ? 600 : 60 };
   NAV.marker = L.marker(pts[0], { icon: L.divIcon({ className: '', html: '<div class="me-wrap"><div class="me-pulse"></div>' + ARROW_SVG + '</div>', iconSize: [46, 46], iconAnchor: [23, 23] }), interactive: false, zIndexOffset: 2000 }).addTo(map);
   NAV.done = L.polyline([pts[0]], { color: '#4fa3ff', weight: 6, opacity: .9 }).addTo(routeLayer);
   document.getElementById('navBanner').hidden = false;
@@ -615,8 +625,8 @@ let simLast = 0;
 function simStep(ts) {
   if (!NAV || !NAV.sim) return;
   const dt = simLast ? Math.min(0.25, (ts - simLast) / 1000) : 0; simLast = ts;
-  NAV.s = Math.min(NAV.total, NAV.s + NAV.v * dt * SIM / 3600);
-  clockR.value = Math.min(24, +clockR.value + dt * SIM / 3600);
+  NAV.s = Math.min(NAV.total, NAV.s + NAV.v * dt * NAV.k / 3600);
+  clockR.value = Math.min(24, +clockR.value + dt * NAV.k / 3600);
   updateNav();
   if (NAV && NAV.sim) requestAnimationFrame(simStep);
 }
