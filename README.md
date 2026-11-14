@@ -73,13 +73,13 @@ Full credits, with links, are on the [Field Guide page](https://pravyasharma.git
 
 - The temperature layer is our own simple model fitted to two real weather stations (Curiosity and Perseverance). It is a teaching tool, not a forecast.
 - Suit readings on the 3D globe are simulated demo values.
-- The presentation voices are computer-generated (Piper neural text-to-speech with LibriTTS voices, made offline). The presenters are illustrations.
+- The presentation voices are computer-generated (Kokoro neural text-to-speech, made offline, pitched to sound like 10 to 12 year olds). The presenters are illustrations drawn in code.
 - The chat and camera run in demo mode. A public website has no satellite link, so messages, photos and videos stay in your browser and are shared between its open tabs.
 - Prepared by the team with help from an SI assistant for coding and fact-checking. Every fact was checked by the team. The six team diagrams were drawn with an SI image tool from the team's own ideas and carry an "SI-assisted image" mark. No NASA image was changed or generated.
 
 ## Built with
 
-Plain HTML, CSS and JavaScript, [Leaflet](https://leafletjs.com/) (BSD-2 licence) and [three.js](https://threejs.org/) (MIT licence), both included in `lib/`. Narration made with [Piper](https://github.com/rhasspy/piper) text-to-speech and LibriTTS voices (LibriTTS dataset, CC BY 4.0). Hosted on GitHub Pages.
+Plain HTML, CSS and JavaScript, [Leaflet](https://leafletjs.com/) (BSD-2 licence) and [three.js](https://threejs.org/) (MIT licence), both included in `lib/`. Narration made with [Kokoro-82M](https://github.com/hexgrad/kokoro) text-to-speech (Apache 2.0), run with [kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx) (MIT). Hosted on GitHub Pages.
 
 ## Files
 
