@@ -32,11 +32,11 @@ a{color:var(--dust)}
 #title{left:1.2%;top:1.6%;width:23.5%}
 #title b{font:700 1.5em Georgia,"Bookman Old Style",serif}
 nav{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
-nav a{border:1px solid var(--line);color:var(--sand);padding:3px 8px;border-radius:6px;text-decoration:none;font-size:.9em}
-nav a:hover{border-color:var(--dust)}nav a.on{border-color:var(--dust);color:var(--dust)}
-#pos{left:1.2%;top:15.5%;width:23.5%}
+nav a{background:#2f6f73;border:1px solid #4fa3a5;color:#fff;padding:5px 11px;border-radius:7px;text-decoration:none;font-size:1.02em;font-weight:700;letter-spacing:.01em}
+nav a:hover{background:#3b8a8e}nav a.on{background:#e3a857;border-color:#e3a857;color:#1c1110}
+#pos{left:1.2%;top:18%;width:23.5%}
 #pos .ll{font:700 1.3em Consolas,"Courier New",monospace;color:var(--dust)}
-#dirs{left:1.2%;top:30%;width:23.5%}
+#dirs{left:1.2%;top:33%;width:23.5%}
 #dirs table{width:100%;border-collapse:collapse;font-size:.92em}
 #dirs td{padding:2px;border-bottom:1px solid #3a241d;vertical-align:top}
 #dirs td.c{font-weight:700;color:var(--dust);width:2.4em}
@@ -59,6 +59,8 @@ nav a:hover{border-color:var(--dust)}nav a.on{border-color:var(--dust);color:var
 #sunbox dt{color:var(--clay)}#sunbox dd{margin:0;text-align:right}
 #time{margin-top:6px}
 #time input{width:100%;accent-color:var(--ember)}
+.leghead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}.leghead h4{margin:0!important;font-size:1.25em!important}
+.tb.big{background:#c1440e;border:2px solid #ffb37a;color:#fff;font-weight:700;font-size:1.15em;padding:7px 14px;border-radius:8px;box-shadow:0 0 10px rgba(255,140,60,.35)}.tb.big:hover{background:#d9561b}
 .tb{background:transparent;border:1px solid var(--line);color:var(--sand);border-radius:6px;padding:3px 8px;font:inherit;font-size:.88em;cursor:pointer}
 .tb:hover{border-color:var(--dust)}.tb.on{border-color:var(--dust);color:var(--dust)}
 #earth{right:1.2%;bottom:2%;width:23.5%;display:flex;gap:12px;align-items:center}
@@ -97,7 +99,7 @@ nav a:hover{border-color:var(--dust)}nav a.on{border-color:var(--dust);color:var
   </div>
 
   <div id="legend" class="box">
-    <h4>Legend</h4>
+    <div class="leghead"><h4>Legend</h4><button class="tb big" id="layerBtn">Show height map</button></div>
     <div id="legendMap"></div>
     <div class="sym">
       <svg width="16" height="20" viewBox="0 0 30 40" aria-hidden="true"><path d="M15 39 C15 39 2 22 2 14 A13 13 0 0 1 28 14 C28 22 15 39 15 39Z" fill="#c1440e" stroke="#f2e3cc" stroke-width="3"/></svg><span>Your position (the pin)</span>
@@ -107,7 +109,6 @@ nav a:hover{border-color:var(--dust)}nav a.on{border-color:var(--dust);color:var
       <span class="sw" style="background:#120b0a;border:1px solid #6b4a3a"></span><span>Dark side of the globe = night</span>
     </div>
     <div style="margin-top:6px;font-size:.88em"><span class="pill GO">GO</span> <span class="pill CAUTION">CAUTION</span> <span class="pill NOGO">NO-GO</span> walk zones · bar colours match</div>
-    <div style="margin-top:6px"><button class="tb" id="layerBtn">Show height map</button></div>
     <div class="muted" style="margin-top:5px">Team: <b style="color:var(--sand)">Pravya Sharma</b> (lead), <b style="color:var(--sand)">Advika Bisaria</b>, <b style="color:var(--sand)">Kshama</b> · Winchester School, Jebel Ali, Dubai.<br>Imagery: <a href="https://trek.nasa.gov/mars/" target="_blank" rel="noopener">NASA/JPL Mars Trek</a> (Viking colour mosaic, MOLA). Names: USGS/IAU Gazetteer.</div>
   </div>
 

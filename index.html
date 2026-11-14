@@ -261,7 +261,7 @@ function zone(lat, h) {
 const MARS_CRS = L.extend({}, L.CRS.EPSG4326, { R: R_KM * 1000 });   // Mars-sized distances for the scale bar
 const STILL = /[?&]still/.test(location.search);   // no animations (used for screenshots)
 const map = L.map('map', { crs: MARS_CRS, zoomAnimation: !STILL, fadeAnimation: !STILL, minZoom: 1, maxZoom: 18, worldCopyJump: false, zoomSnap: 0.5,
-  maxBounds: [[-90, -200], [90, 200]], attributionControl: true }).setView([-4.65, 137.4], 9);
+  maxBounds: [[-90, -200], [90, 200]], attributionControl: true }).setView([-4.75, 137.35], 7);
 const TREK = 'https://trek.nasa.gov/tiles/Mars/EQ/';
 const ATTR = 'Imagery: <a href="https://trek.nasa.gov/mars/" target="_blank" rel="noopener">NASA/JPL Mars Trek</a>';
 function trek(id, ext, maxN, opts = {}) {
@@ -474,7 +474,7 @@ document.getElementById('menuBtn').onclick = () => { document.getElementById('si
 
 /* ---------- Objectives ---------- */
 const OBJ = [
-  { id: 'base', t: 'Land safely and set up base', s: 'Gale Crater floor, near Bradbury Landing', view: [[-4.6, 137.4], 9], baseL: 'Height map (MOLA laser altimeter)', ov: { ez: 1, pois: 1, paths: 1, gale: 1 }, ez: P.bradbury.ll,
+  { id: 'base', t: 'Land safely and set up base', s: 'Gale Crater floor, near Bradbury Landing', view: [[-4.75, 137.35], 7], baseL: 'Height map (MOLA laser altimeter)', ov: { ez: 1, pois: 1, paths: 1, gale: 1 }, ez: P.bradbury.ll,
     why: 'Low ground means more air above you to slow a heavy lander, and being close to the equator means warmer days.',
     list: ['Low elevation: the Gale floor is about 4,500 m below Mars datum (rover data).', 'Close to the equator (4.6°S): the most GO hours on our temperature layer.', 'Flat landing ground, away from Mount Sharp’s steep slopes.', 'Science and resources within the 100 km Exploration Zone NASA plans around a human landing site.'] },
   { id: 'water', t: 'Find water ice', s: 'Arcadia Planitia and Deuteronilus Mensae', view: [[46, -158], 4], baseL: 'Height map (MOLA laser altimeter)', ov: { ice: 1, pois: 1, ti: 1 },
@@ -660,7 +660,7 @@ map.on('dragstart', () => { if (NAV) NAV.follow = false; });
 
 /* Start */
 fillSel(); drawPaths(); refreshNames(); updClock(); loadLive();
-runObj(OBJ[5], [[-4.6, 137.4], 9]);   // open zoomed out over Gale Crater, route in view
+runObj(OBJ[0], OBJ[0].view);   // home: Land safely and set up base, zoomed out over Gale Crater
 </script>
 <script>
 window.CREW_CFG = {
