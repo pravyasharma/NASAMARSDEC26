@@ -77,6 +77,17 @@ nav a:hover{background:#3b8a8e}nav a.on{background:#e3a857;border-color:#e3a857;
 #gcompass{position:absolute;left:50%;top:1.2%;transform:translateX(-50%);width:84px;text-align:center;background:rgba(28,17,16,.88);border:1px solid var(--line);border-radius:12px;padding:5px 4px 3px}
 #gcompass svg{width:58px;height:58px;display:block;margin:0 auto}
 #gcompass div{font:600 .82em "Segoe UI",Arial;color:var(--clay);white-space:nowrap}
+
+/* menu: one colour per page so each button is easy to spot; current page has a white outline */
+nav a[href="index.html"],nav a[href="globe.html"],nav a[href="guide.html"],nav a[href="present.html"],nav a[href="guide.html#team"],#menuBtn{color:#fff!important;font-weight:700!important;border-width:1px!important;border-style:solid!important}
+nav a[href="index.html"]{background:#c1440e!important;border-color:#ee7a45!important}
+nav a[href="globe.html"]{background:#2f6f73!important;border-color:#5fb0b2!important}
+nav a[href="guide.html"]{background:#4f7a3a!important;border-color:#82b066!important}
+nav a[href="present.html"]{background:#3d5f9a!important;border-color:#7a9ad6!important}
+nav a[href="guide.html#team"]{background:#6f4b8f!important;border-color:#a888c8!important}
+#menuBtn{background:#e3a857!important;border-color:#f3c98a!important;color:#1c1110!important}
+nav a:hover,#menuBtn:hover{filter:brightness(1.15)}
+nav a.on,nav a.cur{outline:2px solid #fff;outline-offset:2px}
 </style>
 <script type="importmap">{"imports":{"three":"./lib/three/three.module.js"}}</script>
 </head>

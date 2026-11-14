@@ -47,6 +47,17 @@ ol.rules li{margin:0 0 6px;break-inside:avoid}
 .cta a.ghost{background:transparent;border:1px solid var(--line);color:var(--sand)}
 .muted{color:var(--clay);font-size:14px}
 @media(max-width:760px){.two{grid-template-columns:1fr}ol.rules{columns:1}h1{font-size:30px}h2{font-size:23px}main{padding:6px 14px 90px}table{display:block;overflow-x:auto;white-space:normal}header nav{flex-wrap:nowrap;overflow-x:auto;width:100%;margin-left:0}header nav a{flex:0 0 auto}.cta a{flex:1 1 100%;text-align:center}}
+
+/* menu: one colour per page so each button is easy to spot; current page has a white outline */
+nav a[href="index.html"],nav a[href="globe.html"],nav a[href="guide.html"],nav a[href="present.html"],nav a[href="guide.html#team"],#menuBtn{color:#fff!important;font-weight:700!important;border-width:1px!important;border-style:solid!important}
+nav a[href="index.html"]{background:#c1440e!important;border-color:#ee7a45!important}
+nav a[href="globe.html"]{background:#2f6f73!important;border-color:#5fb0b2!important}
+nav a[href="guide.html"]{background:#4f7a3a!important;border-color:#82b066!important}
+nav a[href="present.html"]{background:#3d5f9a!important;border-color:#7a9ad6!important}
+nav a[href="guide.html#team"]{background:#6f4b8f!important;border-color:#a888c8!important}
+#menuBtn{background:#e3a857!important;border-color:#f3c98a!important;color:#1c1110!important}
+nav a:hover,#menuBtn:hover{filter:brightness(1.15)}
+nav a.on,nav a.cur{outline:2px solid #fff;outline-offset:2px}
 </style>
 </head>
 <body>

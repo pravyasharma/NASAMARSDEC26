@@ -20,6 +20,7 @@ header nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
 header nav a,header nav button{background:transparent;border:1px solid var(--line);color:var(--sand);padding:6px 12px;border-radius:6px;text-decoration:none;font:inherit;cursor:pointer}
 header nav a:hover,header nav button:hover{border-color:var(--dust)}
 #wrap{position:absolute;top:56px;bottom:0;left:0;right:0;display:flex}
+aside.hide{display:none!important}
 aside{width:390px;min-width:390px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column}
 .tabs{display:flex;border-bottom:1px solid var(--line)}
 .tabs button{flex:1;background:none;border:0;color:var(--clay);padding:12px 4px;font:600 14px inherit;cursor:pointer;border-bottom:3px solid transparent}
@@ -98,6 +99,17 @@ input[type=range]{width:100%;accent-color:var(--ember)}
   #compass{width:70px}#compass svg{width:52px;height:52px}
   #navBanner{flex:1 1 auto}#navInstr{font-size:15px}#navStats{font-size:13px;min-width:0}
 header h1 span{display:none}}
+
+/* menu: one colour per page so each button is easy to spot; current page has a white outline */
+nav a[href="index.html"],nav a[href="globe.html"],nav a[href="guide.html"],nav a[href="present.html"],nav a[href="guide.html#team"],#menuBtn{color:#fff!important;font-weight:700!important;border-width:1px!important;border-style:solid!important}
+nav a[href="index.html"]{background:#c1440e!important;border-color:#ee7a45!important}
+nav a[href="globe.html"]{background:#2f6f73!important;border-color:#5fb0b2!important}
+nav a[href="guide.html"]{background:#4f7a3a!important;border-color:#82b066!important}
+nav a[href="present.html"]{background:#3d5f9a!important;border-color:#7a9ad6!important}
+nav a[href="guide.html#team"]{background:#6f4b8f!important;border-color:#a888c8!important}
+#menuBtn{background:#e3a857!important;border-color:#f3c98a!important;color:#1c1110!important}
+nav a:hover,#menuBtn:hover{filter:brightness(1.15)}
+nav a.on,nav a.cur{outline:2px solid #fff;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -105,7 +117,7 @@ header h1 span{display:none}}
   <h1>Mars Navigator<span>Interplanetary Survival Guide: Martian Map</span></h1>
   <nav>
     <button id="menuBtn" title="Show or hide the planning panel">Panel</button>
-    <a href="index.html" style="border-color:var(--dust);color:var(--dust)">Map</a>
+    <a href="index.html" class="cur">Map</a>
     <a href="globe.html">3D Globe</a>
     <a href="guide.html">Field Guide</a>
     <a href="present.html">Presentation</a>
@@ -470,7 +482,14 @@ map.on('click', e => { showInfo([e.latlng.lat, e.latlng.lng]); showTab('info'); 
 /* Tabs */
 function showTab(p) { document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.p === p)); document.querySelectorAll('.pane').forEach(x => x.classList.toggle('on', x.id === 'p-' + p)); }
 document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => showTab(b.dataset.p));
-document.getElementById('menuBtn').onclick = () => { document.getElementById('side').classList.toggle('open'); setTimeout(() => map.invalidateSize(), 50); };
+document.getElementById('menuBtn').onclick = () => {
+  const side = document.getElementById('side'), btn = document.getElementById('menuBtn');
+  const small = matchMedia('(max-width:900px)').matches;
+  const shown = small ? side.classList.toggle('open') : !side.classList.toggle('hide');
+  btn.textContent = shown ? 'Hide panel' : 'Show panel';
+  setTimeout(() => map.invalidateSize(), 60);
+};
+document.getElementById('menuBtn').textContent = matchMedia('(max-width:900px)').matches ? 'Show panel' : 'Hide panel';
 
 /* ---------- Objectives ---------- */
 const OBJ = [
