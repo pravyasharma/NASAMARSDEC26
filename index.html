@@ -495,12 +495,13 @@ const OBJ = [
 ];
 const objList = document.getElementById('objList'), objCard = document.getElementById('objCard');
 OBJ.forEach(o => { const b = document.createElement('button'); b.className = 'obj'; b.dataset.id = o.id; b.innerHTML = `<b>${o.t}</b><small>${o.s}</small>`; b.onclick = () => runObj(o); objList.appendChild(b); });
-function runObj(o) {
+function runObj(o, startView) {
   objList.querySelectorAll('.obj').forEach(b => b.classList.toggle('on', b.dataset.id === o.id));
   Object.values(base).forEach(l => map.removeLayer(l)); base[o.baseL].addTo(map);
   Object.keys(OV).forEach(k => { if (k !== 'names') setOv(k, !!o.ov[k]); });
   if (o.ez) drawEZ(o.ez);
-  STILL ? map.setView(o.view[0], o.view[1], { animate: false }) : map.flyTo(o.view[0], o.view[1], { duration: 1.2 });
+  if (startView) map.setView(startView[0], startView[1], { animate: false });
+  else STILL ? map.setView(o.view[0], o.view[1], { animate: false }) : map.flyTo(o.view[0], o.view[1], { duration: 1.2 });
   objCard.innerHTML = `<div class="card"><b>Why it matters</b><br>${o.why}<h3>Checklist</h3><ul class="check">${o.list.map(x => '<li>' + x + '</li>').join('')}</ul>
     ${o.id === 'life' ? '<button class="btn ghost" id="jz">Jump to Jezero</button>' : ''}${o.route ? '<button class="btn" id="go">Show this route</button> <button class="btn" id="goNav">Start navigation</button>' : ''}</div>`;
   if (o.id === 'life') document.getElementById('jz').onclick = () => map.flyTo([18.44, 77.42], 11);
@@ -659,7 +660,7 @@ map.on('dragstart', () => { if (NAV) NAV.follow = false; });
 
 /* Start */
 fillSel(); drawPaths(); refreshNames(); updClock(); loadLive();
-runObj(OBJ[5]);
+runObj(OBJ[5], [[-4.6, 137.4], 9]);   // open zoomed out over Gale Crater, route in view
 </script>
 <script>
 window.CREW_CFG = {
