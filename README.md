@@ -19,7 +19,7 @@ Winchester School, Jebel Ali, Dubai
 
 | Page | What it does |
 |---|---|
-| [Map](https://pravyasharma.github.io/NASAMARSDEC26/) (`index.html`) | NASA Mars Trek layers, six mission objectives, route planner on Curiosity's real path, turn-by-turn navigation, temperature zone clock |
+| [Map, home page](https://pravyasharma.github.io/NASAMARSDEC26/) (`index.html`) | NASA Mars Trek layers, six mission objectives, route planner on Curiosity's real path, turn-by-turn navigation, temperature zone clock |
 | [3D Globe](https://pravyasharma.github.io/NASAMARSDEC26/globe.html) (`globe.html`) | Slide-sized globe with a fixed pin, what lies in each direction, suit meter, live Sun position and sunlight, Earth distance |
 | [Presentation](https://pravyasharma.github.io/NASAMARSDEC26/present.html) (`present.html`) | Pravya, Kshama and Advika (cute illustrated presenters) explain the project in 30 seconds, 1 minute or 2 minutes, with narration and captions |
 | [Field Guide](https://pravyasharma.github.io/NASAMARSDEC26/guide.html) (`guide.html`) | The team's field guide, safety layer, solar power plan, and all credits and sources |
@@ -83,7 +83,7 @@ Plain HTML, CSS and JavaScript, [Leaflet](https://leafletjs.com/) (BSD-2 licence
 
 ## Files
 
-- `index.html`, `globe.html`, `guide.html`, `present.html`: the four pages
+- `index.html` (map, home page), `globe.html`, `guide.html`, `present.html`: the four pages
 - `data.js`: place names and the built-in copy of NASA rover waypoints
 - `crew.js`: crew chat and field camera
 - `sw.js`: offline helper (keeps pages and viewed map tiles)

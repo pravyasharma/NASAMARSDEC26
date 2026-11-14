@@ -77,11 +77,14 @@ html,body{margin:0;height:100%;background:#080505;color:var(--sand);font-family:
 #start button{background:var(--rust);color:#fff;border:0;border-radius:10px;padding:14px 22px;font:600 17px "Segoe UI",Arial;cursor:pointer}
 #start button.g{background:transparent;border:1px solid var(--line);color:var(--sand);font-size:14px;padding:8px 14px}
 #start p{color:var(--clay);font-size:14px;margin:0;max-width:640px;text-align:center}
-body.rec #bar,body.rec #hint,body.rec #start,body.rec .crew-fabs{display:none!important}
+#rotate{display:none}
+@media (orientation:portrait) and (max-width:900px){#rotate{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;justify-content:flex-start;padding:10px 130px 10px 14px;background:rgba(20,12,11,.92);color:#e3a857;font:600 14px 'Segoe UI',Arial;border-top:1px solid #4a2f26}}
+body.rec #rotate,body.rec #bar,body.rec #hint,body.rec #start,body.rec .crew-fabs{display:none!important}
 body.rec #prog{top:0}
 </style>
 </head>
 <body>
+<div id="rotate">Turn your phone sideways to watch the presentation full size</div>
 <div id="stage">
   <div id="bar">
     <b>Mars Navigator</b><span style="color:var(--clay);font-size:13px">Team presentation</span>

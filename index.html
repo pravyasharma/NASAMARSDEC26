@@ -85,7 +85,19 @@ input[type=range]{width:100%;accent-color:var(--ember)}
 #profile svg{width:100%;height:120px;background:#1f1412;border-radius:6px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-2px}
 .credit{font-size:13px;color:var(--clay);border-top:1px solid var(--line);margin-top:16px;padding-top:10px}
-@media (max-width:900px){aside{position:absolute;z-index:900;height:100%;width:100%;min-width:0;display:none}aside.open{display:flex}#readout{left:8px}#clock{width:220px}#topstrip{left:58px;right:246px}#navInstr{font-size:16px}header h1 span{display:none}}
+@media (max-width:900px){aside{position:absolute;z-index:900;height:100%;width:100%;min-width:0;display:none}aside.open{display:flex}
+  header{height:auto;min-height:56px;flex-wrap:wrap;padding:8px 10px;gap:6px}
+  header h1{font-size:18px}
+  header nav{margin-left:0;width:100%;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  header nav a,header nav button{flex:0 0 auto;font-size:13px;padding:6px 10px}
+  #wrap{top:var(--hdr,96px)}
+  #readout{display:none}
+  #clock{top:auto;bottom:34px;left:8px;right:auto;width:200px;padding:8px 10px}
+  #clock .t{font-size:17px}
+  #topstrip{left:56px;right:8px;justify-content:flex-start}
+  #compass{width:70px}#compass svg{width:52px;height:52px}
+  #navBanner{flex:1 1 auto}#navInstr{font-size:15px}#navStats{font-size:13px;min-width:0}
+header h1 span{display:none}}
 </style>
 </head>
 <body>
@@ -411,7 +423,13 @@ ovList.addEventListener('change', e => { const o = OV[e.target.dataset.k]; e.tar
 function setOv(k, on) { const o = OV[k]; const cb = ovList.querySelector(`[data-k="${k}"]`); cb.checked = on; on ? o.layer.addTo(map) : map.removeLayer(o.layer); }
 L.control.layers(base, null, { position: 'topright', collapsed: true }).addTo(map);
 L.control.scale({ metric: true, imperial: false, maxWidth: 160 }).addTo(map);
-document.querySelector('.leaflet-top.leaflet-right').style.marginTop = '150px';
+function fitChrome() {
+  const small = matchMedia('(max-width:900px)').matches;
+  document.documentElement.style.setProperty('--hdr', document.querySelector('header').offsetHeight + 'px');
+  document.querySelector('.leaflet-top.leaflet-right').style.marginTop = small ? '10px' : '150px';
+  setTimeout(() => map.invalidateSize(), 50);
+}
+addEventListener('resize', fitChrome); fitChrome();
 
 /* Clock */
 const clockR = document.getElementById('clockR'), clockT = document.getElementById('clockT'), clockZ = document.getElementById('clockZ');

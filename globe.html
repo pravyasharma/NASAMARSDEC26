@@ -10,9 +10,21 @@
 :root{--basalt:#1c1110;--panel:#2b1a16;--rust:#c1440e;--ember:#d8582a;--dust:#e3a857;--sand:#f2e3cc;--clay:#d9c2a3;--frost:#8db9cc;--sage:#7fa37a;--line:#4a2f26}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#0b0706;color:var(--sand);font:13px/1.35 "Segoe UI",Calibri,Arial,sans-serif;overflow:hidden}
-#frame{position:absolute;left:50%;top:50%;width:min(100vw,177.78vh);height:min(56.25vw,100vh);transform:translate(-50%,-50%);background:radial-gradient(ellipse at 50% 50%,#1d1210 0%,#080505 70%);overflow:hidden;font-size:min(13px,1.2vh)}
-@media (min-height:900px){#frame{font-size:14px}}
-canvas{display:block;cursor:grab}
+#frame{position:absolute;left:50%;top:50%;width:min(100vw,177.78vh);height:min(56.25vw,100vh);transform:translate(-50%,-50%);background:radial-gradient(ellipse at 50% 50%,#1d1210 0%,#080505 70%);overflow:hidden;font-size:clamp(10px,calc(min(56.25vw,100vh) * 0.0128),20px)}
+/* ---------- phones, portrait tablets and narrow windows: stacked layout ---------- */
+@media (max-width:899px), (max-aspect-ratio:13/10){
+  html,body{overflow:auto;height:auto}
+  #frame{position:static;transform:none;width:100%;height:auto;min-height:100vh;display:flex;flex-direction:column;gap:10px;padding:10px 10px 96px;font-size:14px;overflow:visible}
+  #frame .box{position:static!important;width:auto!important;transform:none!important;max-width:none!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important}
+  #title{order:1}#gl{order:2}#presets{order:3}#pos{order:4}#dirs{order:5}#suit{order:6}#sunbox{order:7}#earth{order:8}#legend{order:9}
+  #gl{position:relative!important;inset:auto!important;height:min(96vw,64vh)!important;min-height:300px;border-radius:12px;background:radial-gradient(ellipse at 50% 50%,#1d1210 0%,#080505 75%)}
+  #presets{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto;justify-content:flex-start!important;-webkit-overflow-scrolling:touch}
+  #presets button{flex:0 0 auto}
+  #gcompass{top:8px!important;width:70px!important}#gcompass svg{width:44px!important;height:44px!important}
+  nav a{padding:6px 10px}
+}
+#gl{position:absolute;inset:0;overflow:hidden}
+canvas{display:block;cursor:grab;touch-action:none}
 canvas:active{cursor:grabbing}
 .box{position:absolute;background:rgba(28,17,16,.9);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
 .muted{color:var(--clay);font-size:.88em}
@@ -29,7 +41,7 @@ nav a:hover{border-color:var(--dust)}nav a.on{border-color:var(--dust);color:var
 #dirs td{padding:2px;border-bottom:1px solid #3a241d;vertical-align:top}
 #dirs td.c{font-weight:700;color:var(--dust);width:2.4em}
 #dirs td.k{text-align:right;white-space:nowrap}
-#legend{left:1.2%;top:63.5%;width:23.5%;bottom:2%}
+#legend{left:1.2%;top:63.5%;width:23.5%;bottom:2%;overflow:auto}
 #legend h4,#sunbox h4,#suit h4,#earth h4{margin:0 0 5px;font:700 1.08em "Segoe UI",Arial}
 .ramp{height:12px;border-radius:3px;margin:3px 0 2px}
 .rampl{display:flex;justify-content:space-between;font-size:.82em;color:var(--clay)}
@@ -56,10 +68,10 @@ nav a:hover{border-color:var(--dust)}nav a.on{border-color:var(--dust);color:var
 #presets button:hover{border-color:var(--dust)}
 #pin{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none}
 #pin svg{position:absolute;left:-15px;top:-38px}
-.cmp{position:absolute;font:700 13px Georgia,serif;color:var(--dust);text-shadow:0 0 3px #000;transform:translate(-50%,-50%);pointer-events:none}
-.lbl{position:absolute;font:600 11px "Segoe UI",Arial;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none}
+.cmp{position:absolute;font:700 1em Georgia,serif;color:var(--dust);text-shadow:0 0 3px #000;transform:translate(-50%,-50%);pointer-events:none}
+.lbl{position:absolute;font:600 .85em "Segoe UI",Arial;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none}
 .lbl.site{color:#ffd9a0}
-.lbl.sun{color:#ffe066;font-size:12px}
+.lbl.sun{color:#ffe066;font-size:.92em}
 #gcompass{position:absolute;left:50%;top:1.2%;transform:translateX(-50%);width:84px;text-align:center;background:rgba(28,17,16,.88);border:1px solid var(--line);border-radius:12px;padding:5px 4px 3px}
 #gcompass svg{width:58px;height:58px;display:block;margin:0 auto}
 #gcompass div{font:600 .82em "Segoe UI",Arial;color:var(--clay);white-space:nowrap}
@@ -68,6 +80,7 @@ nav a:hover{border-color:var(--dust)}nav a.on{border-color:var(--dust);color:var
 </head>
 <body>
 <div id="frame">
+  <div id="gl"></div>
   <div id="title" class="box"><b>Mars Navigator</b><div class="muted">Drag the planet. The pin stays put; Mars turns under it.</div>
     <nav><a href="index.html">Map</a><a href="globe.html" class="on">3D Globe</a><a href="guide.html">Field Guide</a><a href="present.html">Presentation</a><a href="guide.html#team">Sources</a></nav></div>
 
@@ -130,8 +143,8 @@ nav a:hover{border-color:var(--dust)}nav a.on{border-color:var(--dust);color:var
 <script src="data.js"></script>
 <script>
 window.CREW_CFG = {
-  fab: 'left:calc((100vw - min(100vw,177.78vh))/2 + min(100vw,177.78vh)*0.03);top:calc((100vh - min(56.25vw,100vh))/2 + min(56.25vw,100vh)*0.535)',
-  panel: 'left:calc((100vw - min(100vw,177.78vh))/2 + min(100vw,177.78vh)*0.262);bottom:calc((100vh - min(56.25vw,100vh))/2 + min(56.25vw,100vh)*0.095);height:min(520px,calc(min(56.25vw,100vh)*0.72))',
+  fab: 'left:calc((100vw - min(100vw,177.78vh))/2 + min(100vw,177.78vh)*0.262);top:calc((100vh - min(56.25vw,100vh))/2 + min(56.25vw,100vh)*0.02)',
+  panel: 'left:calc((100vw - min(100vw,177.78vh))/2 + min(100vw,177.78vh)*0.262);top:calc((100vh - min(56.25vw,100vh))/2 + min(56.25vw,100vh)*0.13);height:min(560px,calc(min(56.25vw,100vh)*0.74))',
   loc: () => window.GLOBE_POS ? window.GLOBE_POS() : { lat: -4.58947, lon: 137.44163, label: 'Bradbury Landing (base)' }
 };
 </script>
@@ -196,10 +209,13 @@ const PRESETS = [['Gale (base)', BASE], ['Jezero', [18.44, 77.45]], ['Olympus Mo
 const frame = document.getElementById('frame');
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
-frame.prepend(renderer.domElement);
+const gl = document.getElementById('gl');
+gl.prepend(renderer.domElement); gl.appendChild(document.getElementById('pin')); gl.appendChild(document.getElementById('gcompass'));
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(32, 16 / 9, 0.1, 100);
-let camZ = 5.0; camera.position.set(0, 0, camZ);
+let camZ = 5.0, zoomK = 1; camera.position.set(0, 0, camZ);
+const MOBILE = () => matchMedia('(max-width:899px), (max-aspect-ratio:13/10)').matches;
+function setCam() { const a = camera.aspect || 1.78, fit = 1.3 / (Math.tan(Math.PI * 16 / 180) * Math.min(1, a)); const base = MOBILE() ? fit : Math.max(5.0, fit); camZ = Math.max(1.35, Math.min(12, base * zoomK)); camera.position.z = camZ; }
 scene.add(new THREE.AmbientLight(0xffffff, 0.11));
 const sunLight = new THREE.DirectionalLight(0xfff1e0, 2.4); scene.add(sunLight);
 const tilt = new THREE.Group(); scene.add(tilt);
@@ -216,7 +232,7 @@ function glowTex() { const c = document.createElement('canvas'); c.width = c.hei
   gr.addColorStop(0, 'rgba(255,255,240,1)'); gr.addColorStop(0.18, 'rgba(255,236,150,1)'); gr.addColorStop(0.4, 'rgba(255,190,60,.45)'); gr.addColorStop(1, 'rgba(255,150,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); return new THREE.CanvasTexture(c); }
 const sunSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex(), depthWrite: false })); sunSprite.scale.set(0.34, 0.34, 1); scene.add(sunSprite);
 const subMark = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex(), depthWrite: false })); subMark.scale.set(0.13, 0.13, 1); globe.add(subMark);
-const sunDirLbl = document.createElement('div'); sunDirLbl.className = 'lbl sun'; frame.appendChild(sunDirLbl);
+const sunDirLbl = document.createElement('div'); sunDirLbl.className = 'lbl sun'; gl.appendChild(sunDirLbl);
 
 /* Texture: stitch Mars Trek tiles (equirectangular, zoom 2 = 8 x 4 tiles) */
 const LAYERS = { viking: ['Mars_Viking_MDIM21_ClrMosaic_global_232m', 'jpg'], mola: ['Mars_MGS_MOLA_ClrShade_merge_global_463m', 'jpg'] };
@@ -248,17 +264,22 @@ setLayer('viking');
 let lat = BASE[0], lon = BASE[1], tLat = lat, tLon = lon;
 function applyView() { globe.rotation.y = toR(-90 - lon); tilt.rotation.x = toR(lat); }
 let drag = null;
-renderer.domElement.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY }; renderer.domElement.setPointerCapture(e.pointerId); });
-renderer.domElement.addEventListener('pointermove', e => { if (!drag) return; const k = 0.18 * (camZ - 1) / 3.2; tLon -= (e.clientX - drag.x) * k; tLat += (e.clientY - drag.y) * k; tLat = Math.max(-89, Math.min(89, tLat)); drag = { x: e.clientX, y: e.clientY }; });
-addEventListener('pointerup', () => drag = null);
-renderer.domElement.addEventListener('wheel', e => { e.preventDefault(); camZ = Math.max(1.35, Math.min(7, camZ * (1 + Math.sign(e.deltaY) * 0.08))); camera.position.z = camZ; }, { passive: false });
+const touches = new Map(); let pinch0 = 0, zoom0 = 1;
+renderer.domElement.addEventListener('pointerdown', e => { touches.set(e.pointerId, [e.clientX, e.clientY]); renderer.domElement.setPointerCapture(e.pointerId);
+  if (touches.size === 2) { const [a, b] = [...touches.values()]; pinch0 = Math.hypot(a[0] - b[0], a[1] - b[1]); zoom0 = zoomK; drag = null; } else drag = { x: e.clientX, y: e.clientY }; });
+renderer.domElement.addEventListener('pointermove', e => { if (touches.has(e.pointerId)) touches.set(e.pointerId, [e.clientX, e.clientY]);
+  if (touches.size === 2 && pinch0) { const [a, b] = [...touches.values()]; zoomK = Math.max(0.3, Math.min(2.2, zoom0 * pinch0 / Math.max(20, Math.hypot(a[0] - b[0], a[1] - b[1])))); setCam(); return; }
+  if (!drag) return; const k = 0.18 * (camZ - 1) / 3.2; tLon -= (e.clientX - drag.x) * k; tLat += (e.clientY - drag.y) * k; tLat = Math.max(-89, Math.min(89, tLat)); drag = { x: e.clientX, y: e.clientY }; });
+addEventListener('pointerup', e => { touches.delete(e.pointerId); if (touches.size < 2) pinch0 = 0; drag = null; });
+addEventListener('pointercancel', e => { touches.delete(e.pointerId); pinch0 = 0; drag = null; });
+renderer.domElement.addEventListener('wheel', e => { e.preventDefault(); zoomK = Math.max(0.3, Math.min(2.2, zoomK * (1 + Math.sign(e.deltaY) * 0.08))); setCam(); }, { passive: false });
 const pre = document.getElementById('presets');
 PRESETS.forEach(([n, ll]) => { const b = document.createElement('button'); b.textContent = n; b.onclick = () => { tLat = ll[0]; tLon = ll[1]; }; pre.appendChild(b); });
 
-const cmpEls = DIRS.map(d => { const s = document.createElement('div'); s.className = 'cmp'; s.textContent = d; frame.appendChild(s); return s; });
+const cmpEls = DIRS.map(d => { const s = document.createElement('div'); s.className = 'cmp'; s.textContent = d; gl.appendChild(s); return s; });
 const LBL = GAZ.filter(g => g[3] >= 900).map(g => ({ n: g[0], ll: [g[1], g[2]], cls: '' })).concat(SITES.map(([n, ll]) => ({ n, ll, cls: 'site' })));
-LBL.forEach(o => { o.el = document.createElement('div'); o.el.className = 'lbl ' + o.cls; o.el.textContent = o.n; frame.appendChild(o.el); o.v = v3(o.ll[0], o.ll[1], 1.0); const g = GAZ.find(x => x[0] === o.n); o.pr = o.cls === 'site' ? 1e8 : (g ? g[3] : 0); });
-const sunLbl = { n: 'Sun overhead', el: document.createElement('div'), v: new THREE.Vector3(), dy: -18 }; sunLbl.el.className = 'lbl sun'; sunLbl.el.textContent = '☀ Sun overhead'; frame.appendChild(sunLbl.el); sunLbl.pr = 1e9; LBL.push(sunLbl); LBL.sort((a, b) => b.pr - a.pr);
+LBL.forEach(o => { o.el = document.createElement('div'); o.el.className = 'lbl ' + o.cls; o.el.textContent = o.n; gl.appendChild(o.el); o.v = v3(o.ll[0], o.ll[1], 1.0); const g = GAZ.find(x => x[0] === o.n); o.pr = o.cls === 'site' ? 1e8 : (g ? g[3] : 0); });
+const sunLbl = { n: 'Sun overhead', el: document.createElement('div'), v: new THREE.Vector3(), dy: -18 }; sunLbl.el.className = 'lbl sun'; sunLbl.el.textContent = '☀ Sun overhead'; gl.appendChild(sunLbl.el); sunLbl.pr = 1e9; LBL.push(sunLbl); LBL.sort((a, b) => b.pr - a.pr);
 LBL.forEach(o => { o.w = o.el.offsetWidth || 80; o.h = o.el.offsetHeight || 14; });
 window.GLOBE_POS = () => ({ lat, lon: wrap(lon), label: 'globe pin' });
 
@@ -336,7 +357,7 @@ function update(force) {
 }
 
 /* ---- render loop ---- */
-function resize() { const w = frame.clientWidth, h = frame.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+function resize() { const w = gl.clientWidth, h = gl.clientHeight; renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); setCam(); }
 addEventListener('resize', resize); resize();
 const tmp = new THREE.Vector3(), camDir = new THREE.Vector3(), sunW = new THREE.Vector3();
 function loop() {
@@ -355,23 +376,23 @@ function loop() {
   sunDirLbl.textContent = sunW.z > 0.85 ? '☀ Sun is behind you' : (sunW.z < -0.6 ? '☀ Sun is behind Mars' : '☀ Sun is this way');
   sunLbl.v.copy(sv);
   renderer.render(scene, camera);
-  const W = frame.clientWidth, H = frame.clientHeight;
+  const W = gl.clientWidth, H = gl.clientHeight;
   tmp.copy(sunSprite.position).project(camera); sunDirLbl.style.left = ((tmp.x + 1) / 2 * W) + 'px'; sunDirLbl.style.top = ((1 - tmp.y) / 2 * H + 0.06 * H) + 'px';
   const rr = Math.max(46, Math.min(140, 0.6 * H / (camZ - 1) * 0.6));
   cmpEls.forEach((el, i) => { const a = toR(i * 45); el.style.left = (W / 2 + Math.sin(a) * rr) + 'px'; el.style.top = (H / 2 - 14 - Math.cos(a) * rr) + 'px'; });
   /* place labels without overlaps: panels, compass letters, the pin and the Sun label come first */
-  const fr = frame.getBoundingClientRect(), placed = [];
+  const fr = gl.getBoundingClientRect(), placed = [];
   const rel = e => { const r = e.getBoundingClientRect(); return { l: r.left - fr.left, t: r.top - fr.top, r: r.right - fr.left, b: r.bottom - fr.top }; };
   frame.querySelectorAll('.box,#gcompass').forEach(e => placed.push(rel(e)));
   document.querySelectorAll('.crew-fabs,.crew-panel.open').forEach(e => placed.push(rel(e)));
   cmpEls.forEach(e => { const x = parseFloat(e.style.left), y = parseFloat(e.style.top); placed.push({ l: x - 10, t: y - 9, r: x + 10, b: y + 9 }); });
   placed.push({ l: W / 2 - 16, t: H / 2 - 40, r: W / 2 + 16, b: H / 2 });
   { const x = parseFloat(sunDirLbl.style.left), y = parseFloat(sunDirLbl.style.top), w = sunDirLbl.offsetWidth; const r = { l: x - w / 2, t: y - 8, r: x + w / 2, b: y + 8 };
-    if (placed.some(p => !(r.r < p.l || r.l > p.r || r.b < p.t || r.t > p.b))) sunDirLbl.style.visibility = 'hidden'; else { sunDirLbl.style.visibility = 'visible'; placed.push(r); } }
+    if (r.l < 2 || r.r > W - 2 || placed.some(p => !(r.r < p.l || r.l > p.r || r.b < p.t || r.t > p.b))) sunDirLbl.style.visibility = 'hidden'; else { sunDirLbl.style.visibility = 'visible'; placed.push(r); } }
   LBL.forEach(o => { tmp.copy(o.v).applyMatrix4(globe.matrixWorld); camDir.copy(camera.position).sub(tmp).normalize(); const facing = tmp.clone().normalize().dot(camDir);
     if (facing < 0.25) { o.el.style.display = 'none'; return; } tmp.project(camera);
     const x = (tmp.x + 1) / 2 * W, y = (1 - tmp.y) / 2 * H + (o.dy || 0), r = { l: x - o.w / 2 - 5, t: y - o.h / 2 - 3, r: x + o.w / 2 + 5, b: y + o.h / 2 + 3 };
-    if (placed.some(p => !(r.r < p.l || r.l > p.r || r.b < p.t || r.t > p.b))) { o.el.style.display = 'none'; return; }
+    if (r.l < 2 || r.r > W - 2 || r.t < 2 || r.b > H - 2 || placed.some(p => !(r.r < p.l || r.l > p.r || r.b < p.t || r.t > p.b))) { o.el.style.display = 'none'; return; }
     placed.push(r); o.el.style.display = ''; o.el.style.left = x + 'px'; o.el.style.top = y + 'px'; o.el.style.opacity = Math.min(1, (facing - 0.25) * 3); });
   requestAnimationFrame(loop);
 }
