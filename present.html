@@ -80,6 +80,8 @@ html,body{margin:0;height:100%;background:#080505;color:var(--sand);font-family:
 @media (orientation:portrait) and (max-width:900px){#rotate{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;justify-content:flex-start;padding:10px 130px 10px 14px;background:rgba(20,12,11,.92);color:#e3a857;font:600 14px 'Segoe UI',Arial;border-top:1px solid #4a2f26}}
 body.rec #rotate,body.rec #bar,body.rec #hint,body.rec #start,body.rec .crew-fabs{display:none!important}
 body.rec #prog{top:0}
+#sitelink{position:absolute;right:16px;bottom:5px;z-index:12;font:700 13px "Segoe UI",Arial;color:#ffd08a;text-decoration:none;background:rgba(193,68,14,.35);border:1px solid #e3a857;border-radius:5px;padding:2px 9px}#sitelink:hover{background:rgba(193,68,14,.6)}
+a.site{display:inline-block;font:700 21px "Segoe UI",Arial;color:#ffd08a;text-decoration:none;border:2px solid #e3a857;background:rgba(193,68,14,.3);border-radius:8px;padding:8px 16px}a.site:hover{background:rgba(193,68,14,.55)}
 </style>
 </head>
 <body>
@@ -98,6 +100,7 @@ body.rec #prog{top:0}
   <div id="vis"></div>
   <div id="who"></div>
   <div id="capbar"><div id="name"></div><div id="line"></div></div>
+  <a id="sitelink" href="https://pravyasharma.github.io/NASAMARSDEC26/" target="_blank" rel="noopener">Try it: pravyasharma.github.io/NASAMARSDEC26</a>
   <div id="credit">Pravya Sharma (team lead) · Advika Bisaria · Kshama · Winchester School, Jebel Ali, Dubai · NASA Space Apps Challenge 2026</div>
   <div id="start">
     <h1>Mars Navigator</h1>
@@ -295,7 +298,7 @@ const V = {
     <div class="chips pop" style="animation-delay:.3s;margin-top:10px"><span class="chip">NASA Mars Trek</span><span class="chip">Curiosity + Perseverance</span><span class="chip">RAD · REMS · MEDA · MOXIE</span><span class="chip">Mars24</span><span class="chip">USGS/IAU</span><span class="chip">ESA/DLR/FU Berlin</span><span class="chip">SWIM (PSI)</span></div>
     <div class="pop" style="animation-delay:.6s;margin-top:28px;font:22px Georgia,serif"><b>Pravya Sharma</b> <span style="color:var(--clay);font-size:16px">team lead</span> · <b>Advika Bisaria</b> · <b>Kshama</b></div>
     <div class="pop" style="animation-delay:.8s;margin-top:6px;color:var(--clay)">Winchester School, Jebel Ali, Dubai</div>
-    <div class="pop" style="animation-delay:1s;margin-top:18px;font:15px Consolas,monospace;color:var(--dust)">pravyasharma.github.io/NASAMARSDEC26</div>`
+    <div class="pop" style="animation-delay:1s;margin-top:18px"><a class="site" href="https://pravyasharma.github.io/NASAMARSDEC26/" target="_blank" rel="noopener">https://pravyasharma.github.io/NASAMARSDEC26/</a></div>`
 };
 
 /* ---------- scripts and recorded narration (audio/narration.js) ---------- */
