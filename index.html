@@ -110,6 +110,7 @@ nav a[href="guide.html#team"]{background:#6f4b8f!important;border-color:#a888c8!
 #menuBtn{background:#e3a857!important;border-color:#f3c98a!important;color:#1c1110!important}
 nav a:hover,#menuBtn:hover{filter:brightness(1.15)}
 nav a.on,nav a.cur{outline:2px solid #fff;outline-offset:2px}
+.cu-tag span{display:inline-block;white-space:nowrap;transform:translate(calc(-100% - 4px),calc(-100% - 4px));background:rgba(20,12,11,.82);color:#f2e3cc;border:1px solid #e3a857;border-radius:4px;padding:2px 7px;font:600 11px 'Segoe UI',Arial;pointer-events:none}
 </style>
 </head>
 <body>
@@ -288,10 +289,22 @@ const base = {
 };
 base['Colour photo map (Viking Orbiters)'].addTo(map);
 
+/* A sharper black-and-white NASA photo that covers only one crater. Shown from zoom 7 so it never looks like a stray grey box,
+   with a thin outline and a label saying what it is. */
+function closeUp(id, bounds, label) {
+  const tiles = trek(id, 'png', 12, { zIndex: 5, bounds, minZoom: 7 });
+  const box = L.rectangle(bounds, { color: '#e3a857', weight: 1.2, opacity: .8, fill: false, dashArray: '4 4', interactive: false, className: 'cu-box' });
+  const tag = L.marker([bounds[0][0], bounds[1][1]], { interactive: false, icon: L.divIcon({ className: 'cu-tag', html: `<span>Sharper NASA photo: ${label} (MRO CTX, black and white)</span>`, iconSize: null, iconAnchor: [0, 0] }) });
+  const g = L.layerGroup([tiles, box, tag]);
+  const fit = () => { const on = map.getZoom() >= 7; box.setStyle({ opacity: on ? .8 : 0 }); const el = tag.getElement(); if (el) el.style.display = on ? '' : 'none'; };
+  g.on('add', () => { map.on('zoomend', fit); setTimeout(fit, 0); });
+  g.on('remove', () => map.off('zoomend', fit));
+  return g;
+}
 const tileOv = {
-  gale: { name: 'Gale Crater close-up (MRO CTX, about 6 m per pixel)', layer: trek('Gale_CTX_BlockAdj_dd', 'png', 12, { zIndex: 5, bounds: [[-6.5733, 135.1843], [-2.8078, 139.2413]], minZoom: 5 }), on: true },
+  gale: { name: 'Gale Crater close-up (MRO CTX, about 6 m per pixel)', layer: closeUp('Gale_CTX_BlockAdj_dd', [[-6.5733, 135.1843], [-2.8078, 139.2413]], 'Gale Crater'), on: true },
   hirise: { name: 'Curiosity route close-up (MRO HiRISE, about 25 cm per pixel)', layer: trek('curiosity_hirise_mosaic', 'png', 16, { zIndex: 6, bounds: [[-4.9255, 137.1225], [-4.2490, 137.7298]], minZoom: 9 }), on: true },
-  jezero: { name: 'Jezero Crater close-up (MRO CTX)', layer: trek('Jezero_CTX_BlockAdj_dd', 'png', 12, { zIndex: 5, bounds: [[15.9058, 75.1538], [19.4453, 78.8717]], minZoom: 5 }), on: true },
+  jezero: { name: 'Jezero Crater close-up (MRO CTX)', layer: closeUp('Jezero_CTX_BlockAdj_dd', [[15.9058, 75.1538], [19.4453, 78.8717]], 'Jezero Crater'), on: true },
   ti: { name: 'Thermal inertia: rock vs dust (MGS TES)', layer: trek('TES_Thermal_Inertia', 'png', 1, { opacity: 0.6, zIndex: 7 }), on: false },
   dust: { name: 'Surface dust cover (MGS TES)', layer: trek('TES_Dust', 'png', 1, { opacity: 0.6, zIndex: 7 }), on: false }
 };
